@@ -5,7 +5,8 @@ const connectDB = require('./config/db')
 
 const app = express()
 
-connectDB()
+/** Uncomment once MONGO_URI is set in .env file */
+//connectDB()
 
 app.use(cors())
 
@@ -20,4 +21,4 @@ app.get('/', (req, res) => res.send('API running'))
 
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`.green))
+app.listen(PORT, () => console.log(`Server started on port ${PORT}!`.green.underline.bold))
