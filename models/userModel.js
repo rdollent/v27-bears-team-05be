@@ -5,22 +5,7 @@ const bcrypt = require("bcryptjs");
 let userSchema = new mongoose.Schema({
     username: { type: String, required: [true, "username required"] },
     password: { type: String, required: [true, "password required"] },
-    email: { type: String, required: [true, "email required"] },
-    habits: {
-        name: String,
-        frequency: Number,
-        timeline: Number,
-        category: {
-            title: String,
-        },
-        currentStreak: Number,
-        completions: {
-            date: Date,
-            isCompleted: Boolean,
-            rating: Number,
-            note: String,
-        },
-    },
+    email: { type: String, required: [true, "email required"] }
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
