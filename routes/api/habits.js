@@ -10,7 +10,7 @@ const User = require('../../models/userModel')
 // @access Private
 router.get('/:user_id',[
     check('name', 'Please include a name').exists(),
-    check('freuency', 'Please include a frequency').exists(),
+    check('frequency', 'Please include a frequency').exists(),
     check('')
 ], async(req, res) => {
     try {
