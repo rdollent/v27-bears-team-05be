@@ -1,14 +1,18 @@
 const express = require('express')
 const router = express.Router()
-
+const { check, validationResult } = require('express-validator')
 
 const User = require('../../models/userModel')
 
 /** NEEDS A AUTH MIDDLEWARE */
-// @route GET /api/users/:id
-// @desc Get a user by id
+// @route GET /api/habits/:user_id
+// @desc Create a habit for user
 // @access Private
-router.get('/:id', async(req, res) => {
+router.get('/:user_id',[
+    check('name', 'Please include a name').exists(),
+    check('freuency', 'Please include a frequency').exists(),
+    check('')
+], async(req, res) => {
     try {
         const user = await User.findById(req.params.id)
 
@@ -22,5 +26,4 @@ router.get('/:id', async(req, res) => {
     }
 })
 
-
-module.exports = router;
+module.exports = router
