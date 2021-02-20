@@ -34,3 +34,7 @@ const createHabit = async(req, res, next) => {
         return next(new Error("Invalid habit data!"));
     }
 }
+
+module.exports = {
+    createHabit
+}
