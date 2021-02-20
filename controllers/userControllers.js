@@ -36,6 +36,7 @@ const registerUser = async (req, res, next) => {
     }
 };
 
+
 /**
  * @desc Auth user & get token
  * @route POST /api/user/login
@@ -59,7 +60,28 @@ const loginUser = async (req, res, next) => {
     }
 };
 
+/**
+ * @desc Get user by id
+ * @route GET /api/user/:id
+ */
+const getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id)
+
+        if(!user) {
+            res.status(404)
+            return next(Error("User was not found!"))
+        }
+        
+        res.json(user)
+    } catch (error) {
+        res.status(500)
+        return next(new Error("Server error!"))
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
+    getUser
 };
