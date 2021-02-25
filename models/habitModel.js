@@ -2,20 +2,27 @@ const mongoose = require("mongoose");
 
 // Schema for a habit
 let habitSchema = new mongoose.Schema({
-    name: String,
-    frequency: Number,
-    timeline: Number,
-    category: {
-        title: String,
+    name: {
+        type: String,
+        required: true,
     },
-    currentStreak: Number,
+    frequency: {
+        type: Number,
+        required: true,
+    },
+    timeline: {
+        type: Number,
+        required: true,
+    },
+    category: {
+        type: String,
+        required: true,
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User" 
-    }
+        ref: "User",
+    },
 });
-
-
 
 let Habit = mongoose.model("Habit", habitSchema);
 
