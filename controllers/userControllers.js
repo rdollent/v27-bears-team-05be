@@ -4,6 +4,7 @@ const generateToken = require("../utils/generateToken");
 /**
  * @desc Create a new user
  * @route POST /api/user/register
+ * @access Public
  */
 
 const registerUser = async (req, res, next) => {
@@ -39,6 +40,7 @@ const registerUser = async (req, res, next) => {
 /**
  * @desc Auth user & get token
  * @route POST /api/user/login
+ * @access Public
  */
 
 const loginUser = async (req, res, next) => {
@@ -59,7 +61,44 @@ const loginUser = async (req, res, next) => {
     }
 };
 
+/**
+ * @desc Get info from id stored in JWT
+ * @route GET /api/user/
+ * @access Protected
+ */
+
+const getOwnInfo = async (req, res) => {
+    res.json({
+        _id: req.user._id,
+        username: req.user.username,
+        email: req.user.email,
+    });
+};
+
+/**
+ * @desc Get user by id
+ * @route GET /api/user/:id
+ * @access Protected
+ */
+const getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            res.status(404);
+            return next(Error("User was not found!"));
+        }
+
+        res.json(user);
+    } catch (error) {
+        res.status(500);
+        return next(new Error("Server error!"));
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
+    getUser,
+    getOwnInfo,
 };

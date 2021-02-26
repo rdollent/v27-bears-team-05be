@@ -2,8 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const colors = require("colors");
 const connectDB = require("./config/db");
-const { errorHandler } = require("./middleware/errorMiddleware");
+const {
+    notFoundHandler,
+    errorHandler,
+} = require("./middleware/errorMiddleware");
 const userRoutes = require("./routes/userRoutes");
+const habitsRoutes = require("./routes/habitsRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -19,11 +23,11 @@ app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("API running"));
 
 // Define routes
-<<<<<<< HEAD
-app.use('/api/users', require('./routes/api/users'))
-=======
 app.use("/api/user", userRoutes);
->>>>>>> 681a00e7a38ccf1bc596289c172b47222b97aa45
+app.use("/api/habits", habitsRoutes);
+
+// If route not found, create error
+app.use(notFoundHandler);
 
 // Error handling middleware to be used after routes
 app.use(errorHandler);
