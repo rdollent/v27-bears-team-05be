@@ -1,40 +1,54 @@
-const User = require('../models/userModel')
-const Habit = require('../models/habitModel')
+const Habit = require("../models/habitModel");
 
-const createHabit = async(req, res, next) => {
+/**
+ *
+ * @desc Get all habits for user logged in
+ * @route GET /api/habits/
+ * @access Protected
+ */
+
+const getHabits = async (req, res, next) => {
     try {
-        const user = await User.findById(req.params.user_id)
+        const habits = await Habit.find({ user: req.user._id });
+        res.status(200);
+        res.json(habits);
+    } catch (err) {
+        res.status(500);
+        return next(new Error("Server error!"));
+    }
+};
 
-        if(!user) {
+/**
+ * @desc Add habit for user logged in
+ * @route POST /api/habits/add
+ * @access Protected
+ */
+
+const createHabit = async (req, res, next) => {
+    try {
+        const { name, frequency, timeline, category } = req.body;
+
+        if (!name || !frequency || !timeline || !category) {
             res.status(400);
-            return next(new Error("User not found!"));
+            return next(new Error("Missing fields!"));
         }
 
-        const {
+        const habit = new Habit({
             name,
             frequency,
             timeline,
-            categoryTitle,
-        } = req.body;
-
-        const habitFields = {}
-
-        if(name) habitFields.name = name
-        if(frequency) habitFields.frequency = frequency
-        if(timeline) habitFields.category.title = categoryTitle
-        if(categoryTitle) habitFields.category.title = categoryTitle
-        habitFields.currentStreak = 0
-        habitFields.user = user
-
-        let habit = new Habit(habitFields)
-        await habit.save()
-        return res.json(habit)
+            category,
+            user: req.user._id,
+        });
+        await habit.save();
+        return res.json(habit);
     } catch (error) {
-        res.status(500)
+        res.status(500);
         return next(new Error("Invalid habit data!"));
     }
-}
+};
 
 module.exports = {
-    createHabit
-}
+    createHabit,
+    getHabits,
+};
