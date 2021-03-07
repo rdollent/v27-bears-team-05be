@@ -9,8 +9,9 @@ const Habit = require("../models/habitModel");
 
 const getHabits = async (req, res, next) => {
     try {
-        const habits = await Habit.find({ user: req.user._id });
-        res.status(200);
+        let { _id }  = req.user;
+        const habits = await Habit.find({user: _id});
+        // res.status(200);
         res.json(habits);
     } catch (err) {
         res.status(500);
@@ -26,7 +27,7 @@ const getHabits = async (req, res, next) => {
 
 const createHabit = async (req, res, next) => {
     try {
-        const { name, frequency, timeline, category } = req.body;
+        const { name, frequency, timeline, category, user } = req.body;
 
         if (!name || !frequency || !timeline || !category) {
             res.status(400);
@@ -34,11 +35,11 @@ const createHabit = async (req, res, next) => {
         }
 
         const habit = new Habit({
-            name,
-            frequency,
-            timeline,
-            category,
-            user: req.user._id,
+            name: name,
+            frequency: frequency,
+            timeline: timeline,
+            category: category,
+            user: user
         });
         await habit.save();
         return res.json(habit);
