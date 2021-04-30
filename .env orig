@@ -1,0 +1,6 @@
+JWT_SECRET=R1wKsJiMWCciGA5mObJlkYOAO624fAcsxvLkiFLumNzlwalzpG9wuMcrOuc86sX
+MONGO_URI=mongodb+srv://user:yY1lcPNa1WnK3WQU@cluster0.alv2c.mongodb.net/bears-team?retryWrites=true&w=majority
+
+
+username: user
+password: 1AM9skEHk0f7256H
