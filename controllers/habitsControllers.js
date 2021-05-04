@@ -27,9 +27,9 @@ const getHabits = async (req, res, next) => {
 
 const createHabit = async (req, res, next) => {
     try {
-        const { name, frequency, timeline, category, user } = req.body;
+        const { name, frequency, timeline, category, user, goal } = req.body;
 
-        if (!name || !frequency || !timeline || !category) {
+        if (!name || !frequency || !timeline || !category || !goal) {
             res.status(400);
             return next(new Error("Missing fields!"));
         }
@@ -39,6 +39,7 @@ const createHabit = async (req, res, next) => {
             frequency: frequency,
             timeline: timeline,
             category: category,
+            goal: goal,
             user: user
         });
         await habit.save();
