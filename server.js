@@ -8,6 +8,7 @@ const {
 } = require("./middleware/errorMiddleware");
 const userRoutes = require("./routes/userRoutes");
 const habitsRoutes = require("./routes/habitsRoutes");
+const completionRoutes = require("./routes/completionRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => res.send("API running"));
 // Define routes
 app.use("/api/user", userRoutes);
 app.use("/api/habits", habitsRoutes);
+app.use("/api/completion", completionRoutes);
 
 // If route not found, create error
 app.use(notFoundHandler);

@@ -8,6 +8,12 @@ const connectDB = async () => {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             useCreateIndex: true,
+            /**
+            Mongoose's findOneAndUpdate() long pre-dates the MongoDB driver's findOneAndUpdate() function, 
+            so it uses the MongoDB driver's findAndModify() function instead. 
+            You can opt in to using the MongoDB driver's findOneAndUpdate() function using the useFindAndModify global option.
+             */
+            useFindAndModify: false
         });
         console.log("MongoDB connected...");
     } catch (err) {

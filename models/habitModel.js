@@ -4,28 +4,28 @@ const mongoose = require("mongoose");
 let habitSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     frequency: {
         type: String,
-        required: true,
+        required: true
     },
     timeline: {
         type: Number,
-        required: true,
+        required: true
     },
     category: {
         type: String,
-        required: true,
+        required: true
     },
     goal: {
         type: String,
-        required: true,
+        required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-    },
+        ref: "User"
+    }
 });
 
 let Habit = mongoose.model("Habit", habitSchema);
