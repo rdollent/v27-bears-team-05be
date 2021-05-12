@@ -6,9 +6,19 @@ const Completion = require("../models/completionModel");
  * @access Protected
  */
 
-const addCompletion = async (req, res, next) => {
+const modifyCompletion = async (req, res, next) => {
     try {
         const { habitId } = req.body;
+        /** add or delete routes */
+        let path = req.path;
+        let option = {};
+
+        if (path === '/add') {
+            option = { $addToSet: { dates: [ new Date().toLocaleDateString()]}};
+        } 
+        else if (path === '/delete') {
+            option = { $pull: { dates: { $in: [ new Date().toLocaleDateString() ] } } };
+        }
 
         if (!habitId) {
             res.status(400);
@@ -17,7 +27,7 @@ const addCompletion = async (req, res, next) => {
 
         const completion = await Completion.findOneAndUpdate(
             { habit: habitId },
-            { $addToSet: { dates: [ new Date().toLocaleDateString()]}},
+            option,
             // new true will return document after update was applied
             // upsert will create object if it doesn't exist
             { new: true, upsert: true }
@@ -32,32 +42,6 @@ const addCompletion = async (req, res, next) => {
 };
 
 
-const deleteCompletion = async (req, res, next) => {
-    try {
-        const { habitId } = req.body;
-
-        if (!habitId) {
-            res.status(400);
-            return next(new Error("Missing fields!"));
-        }
-
-        const completion = await Completion.findOneAndUpdate(
-            { habit: habitId },
-            { $pull: { dates: { $in: [ new Date().toLocaleDateString() ] } } },
-            // new true will return document after update was applied
-            // upsert will create object if it doesn't exist
-            { new: true, upsert: true, multi: true }
-            );
-        return res.json(completion.dates);
-        // await habit.save();
-        // return res.json(habit);
-    } catch (error) {
-        res.status(500);
-        return next(new Error("Invalid habit data!"));
-    }
-};
-
 module.exports = {
-    addCompletion,
-    deleteCompletion
+    modifyCompletion
 };
