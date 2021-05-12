@@ -48,7 +48,7 @@ const deleteCompletion = async (req, res, next) => {
             // upsert will create object if it doesn't exist
             { new: true, upsert: true, multi: true }
             );
-        return res.json(completion);
+        return res.json(completion.dates);
         // await habit.save();
         // return res.json(habit);
     } catch (error) {
